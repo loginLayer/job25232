@@ -1,20 +1,21 @@
 import React from "react";
 import "./SidebarDashboard.css";
 
-const Link = ({ to, className, children, onClick }) => (
+const Link = ({ to, className, children, onClick, count }) => (
   <a href={to} className={className} onClick={onClick}>
-    {children}
+    <span>{children}</span>
+    {count > 0 && <div className="notification-badge">{count}</div>}
   </a>
 );
 
 const navItems = [
-  { name: "Dashboard", to: "/" },
-  { name: "Contactos", to: "/contactos" },
-  { name: "Whatsapp", to: "/whatsapp" },
-  { name: "Correos", to: "/correos" },
-  { name: "Segmentación", to: "/segmentacion" },
-  { name: "Recordatorios", to: "/recordatorios" },
-  { name: "Analíticas", to: "/analiticas" },
+  { name: "Dashboard", to: "/", count: 0 },
+  { name: "Contactos", to: "/contactos", count: 12 },
+  { name: "Whatsapp", to: "/whatsapp", count: 3 },
+  { name: "Correos", to: "/correos", count: 25 },
+  { name: "Segmentación", to: "/segmentacion", count: 0 },
+  { name: "Recordatorios", to: "/recordatorios", count: 8 },
+  { name: "Analíticas", to: "/analiticas", count: 0 },
 ];
 
 export function Sidebar({ activePath, setActivePath }) {
@@ -26,6 +27,7 @@ export function Sidebar({ activePath, setActivePath }) {
           <Link
             key={item.to}
             to={item.to}
+            count={item.count}
             className={`nav-item ${item.to === activePath ? "active" : ""}`}
             onClick={(e) => {
               e.preventDefault();
@@ -42,12 +44,19 @@ export function Sidebar({ activePath, setActivePath }) {
 }
 
 export default function MainSection() {
-  const [activePath, setActivePath] = React.useState("/");
+  const [activePath, setActivePath] = React.useState(window.location.pathname);
+
+  React.useEffect(() => {
+    const handlePopState = () => setActivePath(window.location.pathname);
+    window.addEventListener("popstate", handlePopState);
+    return () => window.removeEventListener("popstate", handlePopState);
+  }, []);
 
   return (
     <>
       <div className="dashboard-container">
         <Sidebar activePath={activePath} setActivePath={setActivePath} />
+
         <main className="main-content">
           <div className="content-box">
             <h1>Bienvenido al Dashboard del Equipo 49</h1>

@@ -34,11 +34,14 @@
 }
 
 .nav-item {
-  display: block;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding: 12px 15px;
   margin-bottom: 8px;
   text-decoration: none;
   color: #303030;
+  border-radius: 8px;
   transition: background-color 0.2s, color 0.2s;
   font-weight: 500;
 }
@@ -52,6 +55,18 @@
   background-color: #3498db;
   color: white;
   font-weight: 600;
+}
+
+.notification-badge {
+  background-color: #e74c3c;
+  color: white;
+  font-size: 0.75rem;
+  font-weight: 700;
+  padding: 2px 8px;
+  border-radius: 9999px;
+  margin-left: 10px;
+  min-width: 20px;
+  text-align: center;
 }
 
 .main-content {
